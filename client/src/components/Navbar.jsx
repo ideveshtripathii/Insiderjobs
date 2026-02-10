@@ -4,20 +4,17 @@ import { useClerk, UserButton, useUser } from '@clerk/clerk-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 
-
-
-
-
 const Navbar = () => {
-  const {openSignIn} = useClerk()
-  const {user} = useUser()
 
-  const navigate = useNavigate()
+    const { openSignIn } = useClerk()
+    const { user } = useUser()
 
-  const {setShowRecruiterlogin} = useContext(AppContext)
+    const navigate = useNavigate()
 
-  return (
-            <div className='shadow py-4'>
+    const { setShowRecruiterLogin } = useContext(AppContext)
+
+    return (
+        <div className='shadow py-4'>
             <div className='container px-4 2xl:px-20 mx-auto flex justify-between items-center'>
                 <img onClick={() => navigate('/')} className='cursor-pointer' src={assets.logo} alt="" />
                 {
