@@ -7,7 +7,8 @@ export const AppContext = createContext()
 
 export const AppContextProvider = (props) => {
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL
+    const originalBackendUrl = import.meta.env.VITE_BACKEND_URL
+    const backendUrl = originalBackendUrl ? originalBackendUrl.replace(/\/+$/, '') : ''
 
     const { user } = useUser()
     const { getToken } = useAuth()

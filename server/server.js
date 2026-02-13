@@ -22,10 +22,7 @@ app.use((req, res, next) => {
 });
 
 // -------------------- MIDDLEWARES --------------------
-app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://127.0.0.1:5173", "http://127.0.0.1:5174", "http://127.0.0.1:5175", "https://insiderjobs-ten.vercel.app"],
-  credentials: true
-}));
+app.use(cors());
 
 app.post('/webhooks', express.raw({ type: 'application/json' }), clerkWebhooks);
 app.use(express.json());
@@ -38,6 +35,21 @@ app.use(clerkMiddleware({
 app.get('/', (req, res) => res.send("API Working"));
 app.get('/test-auth', (req, res) => {
   res.json({ auth: req.auth });
+});
+
+app.get('/api/test-db', async (req, res) => {
+  try {
+    const mongoose = await import('mongoose');
+    const state = mongoose.connection.readyState;
+    const states = ["disconnected", "connected", "connecting", "disconnecting"];
+    res.json({
+      success: true,
+      status: states[state],
+      database: mongoose.connection.name
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
 });
 
 app.get('/api/debug-cloudinary', async (req, res) => {
