@@ -94,24 +94,17 @@ const startServer = async () => {
     await connectDB();
     await connectCloudinary();
 
-    // Inline Clerk Test
-    try {
-      const { createClerkClient } = await import('@clerk/express');
-      const testClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
-      await testClient.users.getUserList({ limit: 1 });
-      console.log("✅ Clerk Secret Key Verified locally in startServer");
-    } catch (err) {
-      console.error("❌ Clerk Secret Key Verification FAILED in startServer:", err.message);
+    if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+      app.listen(PORT, () => {
+        console.log(`🚀 Server running on port ${PORT}`);
+      });
     }
 
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-    });
-
   } catch (error) {
-    console.error("❌ Server failed to start:", error.message);
-    process.exit(1);
+    console.error("❌ Server initialization failed:", error.message);
   }
 };
 
 startServer();
+
+export default app;
