@@ -15,8 +15,9 @@ import { clerkMiddleware } from '@clerk/express';
 // -------------------- INITIALIZE EXPRESS --------------------
 const app = express();
 
-// -------------------- LOGGING START --------------------
-app.use((req, res, next) => {
+// -------------------- LOGGING & DB CHECK --------------------
+app.use(async (req, res, next) => {
+  await connectDB();
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   next();
 });
