@@ -24,6 +24,12 @@
     "tailwindcss": "^4.1.18",
     "tostify": "^0.0.1"
   },
+  "overrides": {
+    "react-quill": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
+  },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@types/react": "^19.2.5",
