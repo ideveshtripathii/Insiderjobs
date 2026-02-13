@@ -25,10 +25,10 @@
     "tostify": "^0.0.1"
   },
   "overrides": {
-    "react-quill": {
-      "react": "$react",
-      "react-dom": "$react-dom"
-    }
+    "react": "$react",
+    "react-dom": "$react-dom",
+    "@types/react": "$@types/react",
+    "@types/react-dom": "$@types/react-dom"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
