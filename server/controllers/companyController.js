@@ -27,13 +27,23 @@ export const registerCompany = async (req, res) => {
         const salt = await bcrypt.genSalt(10)
         const hashPassword = await bcrypt.hash(password, salt)
 
-        const imageUpload = await cloudinary.uploader.upload(imageFile.path)
+        let companyImage = "";
+
+        try {
+            const imageUpload = await cloudinary.uploader.upload(imageFile.path)
+            companyImage = imageUpload.secure_url
+        } catch (cloudinaryError) {
+            console.error("❌ Cloudinary Upload Failed:", cloudinaryError.message);
+            // Fallback to a placeholder image if Cloudinary fails
+            companyImage = "https://via.placeholder.com/150?text=Company+Logo";
+            console.log("⚠️ Using fallback placeholder image for company logo.");
+        }
 
         const company = await Company.create({
             name,
             email,
             password: hashPassword,
-            image: imageUpload.secure_url
+            image: companyImage
         })
 
         res.json({

@@ -142,7 +142,6 @@ export const AppContextProvider = (props) => {
         userApplications, setUserApplications,
         fetchUserData,
         fetchUserApplications,
-
     }
 
     return (<AppContext.Provider value={value}>

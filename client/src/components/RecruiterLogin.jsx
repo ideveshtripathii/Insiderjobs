@@ -45,6 +45,10 @@ const RecruiterLogin = () => {
 
             } else {
 
+                if (!image) {
+                    return toast.error("Please upload company logo")
+                }
+
                 const formData = new FormData()
                 formData.append('name', name)
                 formData.append('password', password)
@@ -80,57 +84,101 @@ const RecruiterLogin = () => {
     }, [])
 
     return (
-        <div className='absolute top-0 left-0 right-0 bottom-0 z-10 backdrop-blur-sm bg-black/30 flex justify-center items-center'>
-            <form onSubmit={onSubmitHandler} className='relative bg-white p-10 rounded-xl text-slate-500'>
-                <h1 className='text-center text-2xl text-neutral-700 font-medium'>Recruiter {state}</h1>
-                <p className='text-sm'>Welcome back! Please sign in to continue </p>
-                {state === "Sign Up" && isTextDataSubmited
-                    ? <>
+        <div className='fixed inset-0 z-50 backdrop-blur-md bg-slate-900/60 flex justify-center items-center px-4'>
+            <form onSubmit={onSubmitHandler} className='relative bg-white p-8 rounded-[24px] shadow-2xl w-full max-w-[400px] border border-slate-100 flex flex-col'>
 
-                        <div className='flex items-center gap-4 my-10'>
-                            <label htmlFor="image">
-                                <img className='w-16 rounded-full' src={image ? URL.createObjectURL(image) : assets.upload_area} alt="" />
+                <div className='mb-6 text-center'>
+                    <h1 className='text-2xl font-bold text-slate-900 mb-1.5'>Recruiter {state}</h1>
+                    <p className='text-slate-500 text-sm font-medium'>{state === 'Login' ? 'Access your recruiter dashboard' : 'Start hiring the best talent today'}</p>
+                </div>
+
+                {state === "Sign Up" && isTextDataSubmited
+                    ? (
+                        <div className='flex flex-col items-center gap-4 my-4 py-4 bg-slate-50 rounded-xl border border-dashed border-slate-200'>
+                            <label htmlFor="image" className='relative group cursor-pointer'>
+                                <img
+                                    className='w-16 h-16 rounded-xl object-cover shadow-md border-2 border-white group-hover:border-blue-100 transition-all'
+                                    src={image ? URL.createObjectURL(image) : assets.upload_area}
+                                    alt="Logo Upload"
+                                />
+                                <div className='absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity flex items-center justify-center'>
+                                    <span className='text-[8px] font-bold text-blue-600 bg-white px-1.5 py-0.5 rounded shadow-sm'>CHANGE</span>
+                                </div>
                                 <input onChange={e => setImage(e.target.files[0])} type="file" id='image' hidden />
                             </label>
-                            <p>Upload Company <br /> logo</p>
-                        </div>
-
-                    </>
-                    : <>
-
-                        {state !== 'Login' && (
-                            <div className='border px-4 py-2 flex items-center gap-2 rounded-full mt-5'>
-                                <img src={assets.person_icon} alt="" />
-                                <input className='outline-none text-sm' onChange={e => setName(e.target.value)} value={name} type="text" placeholder='Company Name' required />
+                            <div className='text-center'>
+                                <p className='font-bold text-slate-800 text-xs'>Company Logo</p>
+                                <p className='text-slate-400 text-[10px] mt-0.5 font-medium'>Required brand identity</p>
                             </div>
-                        )}
-
-                        <div className='border px-4 py-2 flex items-center gap-2 rounded-full mt-5'>
-                            <img src={assets.email_icon} alt="" />
-                            <input className='outline-none text-sm' onChange={e => setEmail(e.target.value)} value={email} type="email" placeholder='Email Id' required />
                         </div>
+                    )
+                    : (
+                        <div className='space-y-3'>
+                            {state !== 'Login' && (
+                                <div className='group flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 focus-within:bg-white focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-600/5 transition-all'>
+                                    <img className='h-4 opacity-40 group-focus-within:opacity-100 transition-opacity' src={assets.person_icon} alt="" />
+                                    <input
+                                        className='flex-1 outline-none text-sm bg-transparent text-slate-800 placeholder:text-slate-400 font-semibold'
+                                        onChange={e => setName(e.target.value)}
+                                        value={name}
+                                        type="text"
+                                        placeholder='Company Name'
+                                        required
+                                    />
+                                </div>
+                            )}
 
-                        <div className='border px-4 py-2 flex items-center gap-2 rounded-full mt-5'>
-                            <img src={assets.lock_icon} alt="" />
-                            <input className='outline-none text-sm' onChange={e => setPassword(e.target.value)} value={password} type="password" placeholder='Password' required />
+                            <div className='group flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 focus-within:bg-white focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-600/5 transition-all'>
+                                <img className='h-4 opacity-40 group-focus-within:opacity-100 transition-opacity' src={assets.email_icon} alt="" />
+                                <input
+                                    className='flex-1 outline-none text-sm bg-transparent text-slate-800 placeholder:text-slate-400 font-semibold'
+                                    onChange={e => setEmail(e.target.value)}
+                                    value={email}
+                                    type="email"
+                                    placeholder='Email Address'
+                                    required
+                                />
+                            </div>
+
+                            <div className='group flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 focus-within:bg-white focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-600/5 transition-all'>
+                                <img className='h-4 opacity-40 group-focus-within:opacity-100 transition-opacity' src={assets.lock_icon} alt="" />
+                                <input
+                                    className='flex-1 outline-none text-sm bg-transparent text-slate-800 placeholder:text-slate-400 font-semibold'
+                                    onChange={e => setPassword(e.target.value)}
+                                    value={password}
+                                    type="password"
+                                    placeholder='Password'
+                                    required
+                                />
+                            </div>
                         </div>
-
-
-                    </>}
-
-                {state === "Login" && <p className='text-sm text-blue-600 mt-4 cursor-pointer'>Forgot password?</p>}
-
-                <button type='submit' className='bg-blue-600 w-full text-white py-2 rounded-full mt-4'>
-                    {state === 'Login' ? 'login' : isTextDataSubmited ? 'create account' : 'next'}
-                </button>
-
-                {
-                    state === 'Login'
-                        ? <p className='mt-5 text-center'>Don't have an account? <span className='text-blue-600 cursor-pointer' onClick={() => setState("Sign Up")}>Sign Up</span></p>
-                        : <p className='mt-5 text-center'>Already have an account? <span className='text-blue-600 cursor-pointer' onClick={() => setState("Login")}>Login</span></p>
+                    )
                 }
 
-                <img onClick={e => setShowRecruiterLogin(false)} className='absolute top-5 right-5 cursor-pointer' src={assets.cross_icon} alt="" />
+                {state === "Login" && (
+                    <div className='flex justify-end mt-3'>
+                        <button type='button' className='text-[11px] font-bold text-blue-600 hover:text-blue-700 transition-colors uppercase tracking-wider'>Forgot password?</button>
+                    </div>
+                )}
+
+                <button type='submit' className='bg-blue-600 hover:bg-blue-700 active:scale-95 transition-all w-full text-white py-3 rounded-xl mt-6 font-bold text-base shadow-lg shadow-blue-500/20 uppercase tracking-widest'>
+                    {state === 'Login' ? 'login' : isTextDataSubmited ? 'Create Account' : 'Continue'}
+                </button>
+
+                <div className='mt-6 text-center bg-slate-50 py-3 rounded-xl border border-slate-100'>
+                    {state === 'Login'
+                        ? <p className='text-xs font-semibold text-slate-500'>New to InsiderJobs? <button type='button' className='text-blue-600 font-bold hover:underline ml-1' onClick={() => { setState("Sign Up"); setIsTextDataSubmited(false) }}>Register</button></p>
+                        : <p className='text-xs font-semibold text-slate-500'>Already have an account? <button type='button' className='text-blue-600 font-bold hover:underline ml-1' onClick={() => { setState("Login"); setIsTextDataSubmited(false) }}>Sign In</button></p>
+                    }
+                </div>
+
+                <button
+                    type='button'
+                    onClick={e => setShowRecruiterLogin(false)}
+                    className='absolute top-5 right-5 p-1.5 rounded-lg hover:bg-slate-100 transition-all text-slate-400 hover:text-slate-800'
+                >
+                    <img className='h-3.5' src={assets.cross_icon} alt="Close" />
+                </button>
 
             </form>
         </div>

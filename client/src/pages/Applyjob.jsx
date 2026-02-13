@@ -75,10 +75,8 @@ const ApplyJob = () => {
   }
 
   const checkAlreadyApplied = () => {
-
-    const hasApplied = userApplications.some(item => item.jobId._id === JobData._id)
+    const hasApplied = userApplications.some(item => item.jobId && item.jobId._id === JobData._id)
     setIsAlreadyApplied(hasApplied)
-
   }
 
   useEffect(() => {
@@ -96,57 +94,75 @@ const ApplyJob = () => {
       <Navbar />
 
       <div className='min-h-screen flex flex-col py-10 container px-4 2xl:px-20 mx-auto'>
-        <div className='bg-white text-black rounded-lg w-ful'>
-          <div className='flex justify-center md:justify-between flex-wrap gap-8 px-14 py-20  mb-6 bg-sky-50 border border-sky-400 rounded-xl'>
-            <div className='flex flex-col md:flex-row items-center'>
-              <img className='h-24 bg-white rounded-lg p-4 mr-4 max-md:mb-4 border' src={JobData.companyId.image} alt="" />
-              <div className='text-center md:text-left text-neutral-700'>
-                <h1 className='text-2xl sm:text-4xl font-medium'>{JobData.title}</h1>
-                <div className='flex flex-row flex-wrap max-md:justify-center gap-y-2 gap-6 items-center text-gray-600 mt-2'>
-                  <span className='flex items-center gap-1'>
-                    <img src={assets.suitcase_icon} alt="" />
-                    {JobData.companyId.name}
+        <div className='text-white w-full'>
+          <div className='flex justify-center md:justify-between flex-wrap gap-10 px-10 py-16 mb-16 premium-card shadow-2xl relative overflow-hidden'>
+            <div className='absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 pointer-events-none'></div>
+
+            <div className='flex flex-col md:flex-row items-center gap-10 relative z-10'>
+              <div className='bg-white/10 p-5 rounded-3xl backdrop-blur-xl border border-white/10 w-28 h-28 flex items-center justify-center shrink-0 shadow-xl group'>
+                <img
+                  className='max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500'
+                  src={JobData.companyId?.image || assets.company_icon}
+                  onError={(e) => { e.target.src = assets.company_icon }}
+                  alt={JobData.companyId?.name || "Company Logo"}
+                />
+              </div>
+              <div className='text-center md:text-left'>
+                <h1 className='text-3xl sm:text-5xl font-extrabold mb-4 tracking-tight'>{JobData.title}</h1>
+                <div className='flex flex-row flex-wrap max-md:justify-center gap-y-4 gap-8 items-center text-slate-400 mt-6'>
+                  <span className='flex items-center gap-2.5 font-bold text-sm uppercase tracking-wider text-indigo-400'>
+                    <img className='h-4 invert opacity-80' src={assets.suitcase_icon} alt="" />
+                    {JobData.companyId?.name || "N/A"}
                   </span>
-                  <span className='flex items-center gap-1'>
-                    <img src={assets.location_icon} alt="" />
+                  <span className='flex items-center gap-2.5 font-bold text-sm uppercase tracking-wider'>
+                    <img className='h-4 invert opacity-80' src={assets.location_icon} alt="" />
                     {JobData.location}
                   </span>
-                  <span className='flex items-center gap-1'>
-                    <img src={assets.person_icon} alt="" />
+                  <span className='flex items-center gap-2.5 font-bold text-sm uppercase tracking-wider text-pink-400'>
+                    <img className='h-4 invert opacity-80' src={assets.person_icon} alt="" />
                     {JobData.level}
                   </span>
-                  <span className='flex items-center gap-1'>
-                    <img src={assets.money_icon} alt="" />
+                  <span className='flex items-center gap-2.5 font-bold text-sm uppercase tracking-wider text-emerald-400'>
+                    <img className='h-4 invert opacity-80' src={assets.money_icon} alt="" />
                     CTC: {kconvert.convertTo(JobData.salary)}
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className='flex flex-col justify-center text-end text-sm max-md:mx-auto max-md:text-center'>
-              <button onClick={applyHandler} className='bg-blue-600 p-2.5 px-10 text-white rounded'>{isAlreadyApplied ? 'Already Applied' : 'Apply Now'}</button>
-              <p className='mt-1 text-gray-600'>Posted {moment(JobData.date).fromNow()}</p>
+            <div className='flex flex-col justify-center text-end max-md:mx-auto max-md:text-center shrink-0 relative z-10'>
+              <button onClick={applyHandler} className='bg-gradient-to-r from-indigo-600 to-purple-600 hover:shadow-2xl hover:shadow-indigo-500/30 active:scale-95 transition-all px-14 py-4 text-white rounded-2xl font-black text-lg uppercase tracking-widest shadow-xl'>
+                {isAlreadyApplied ? 'Already Applied' : 'Apply Now'}
+              </button>
+              <p className='mt-4 text-slate-500 font-black text-[10px] uppercase tracking-[0.25em]'>Posted {moment(JobData.date).fromNow()}</p>
             </div>
 
           </div>
 
-          <div className='flex flex-col lg:flex-row justify-between items-start'>
+          <div className='flex flex-col lg:flex-row justify-between items-start gap-12'>
             <div className='w-full lg:w-2/3'>
-              <h2 className='font-bold text-2xl mb-4'>Job description</h2>
-              <div className='rich-text' dangerouslySetInnerHTML={{ __html: JobData.description }}></div>
-              <button onClick={applyHandler} className='bg-blue-600 p-2.5 px-10 text-white rounded mt-10'>{isAlreadyApplied ? 'Already Applied' : 'Apply Now'}</button>
+              <h2 className='font-extrabold text-3xl mb-8 text-white border-l-4 border-indigo-500 pl-6'>Job description</h2>
+              <div className='rich-text text-slate-300 leading-relaxed' dangerouslySetInnerHTML={{ __html: JobData.description }}></div>
+              <button onClick={applyHandler} className='bg-gradient-to-r from-indigo-600 to-purple-600 hover:shadow-2xl hover:shadow-indigo-500/30 active:scale-95 transition-all px-16 py-4 text-white rounded-2xl font-black text-lg uppercase tracking-widest shadow-xl mt-16'>
+                {isAlreadyApplied ? 'Already Applied' : 'Apply Now'}
+              </button>
             </div>
             {/* Right Section More Jobs */}
-            <div className='w-full lg:w-1/3 mt-8 lg:mt-0 lg:ml-8 space-y-5'>
-              <h2>More jobs from {JobData.companyId.name}</h2>
-              {jobs.filter(job => job._id !== JobData._id && job.companyId._id === JobData.companyId._id)
-                .filter(job => {
-                  // Set of applied jobIds
-                  const appliedJobsIds = new Set(userApplications.map(app => app.jobId && app.jobId._id))
-                  // Return true if the user has not already applied for this job
-                  return !appliedJobsIds.has(job._id)
-                }).slice(0, 4)
-                .map((job, index) => <JobCard key={index} job={job} />)}
+            <div className='w-full lg:w-1/3 space-y-8'>
+              <div className='flex items-center gap-3 mb-6'>
+                <span className='w-2 h-8 bg-pink-500 rounded-full'></span>
+                <h2 className='text-xl font-extrabold text-white'>More jobs from {JobData.companyId?.name || "this company"}</h2>
+              </div>
+              <div className='grid gap-6'>
+                {jobs.filter(job => job._id !== JobData._id && job.companyId?._id === JobData.companyId?._id)
+                  .filter(job => {
+                    // Set of applied jobIds
+                    const appliedJobsIds = new Set(userApplications.map(app => app.jobId && app.jobId._id))
+                    // Return true if the user has not already applied for this job
+                    return !appliedJobsIds.has(job._id)
+                  }).slice(0, 4)
+                  .map((job, index) => <JobCard key={index} job={job} />)}
+              </div>
             </div>
           </div>
 

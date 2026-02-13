@@ -18,43 +18,56 @@ const Hero = () => {
     }
 
     return (
-        <div className='container 2xl:px-20 mx-auto my-10'>
-            <div className='bg-gradient-to-r from-purple-800 to-purple-950 text-white py-16 text-center mx-2 rounded-xl'>
-                <h2 className='text-2xl md:text-3xl lg:text-4xl font-medium mb-4'>Over 10,000+ jobs to apply</h2>
-                <p className='mb-8 max-w-xl mx-auto text-sm font-light px-5'>Your Next Big Career Move Starts Right Here - Explore the Best Job Opportunities and Take the First Step Toward Your Future!</p>
-                <div className='flex items-center justify-between bg-white rounded text-gray-600 max-w-xl pl-4 mx-4 sm:mx-auto'>
-                    <div className='flex items-center'>
-                        <img className='h-4 sm:h-5' src={assets.search_icon} alt="" />
-                        <input type="text"
-                            placeholder='Search for jobs'
-                            className='max-sm:text-xs p-2 rounded outline-none w-full'
-                            ref={titleRef}
-                        />
+        <div className='container 2xl:px-20 mx-auto px-4 mb-20 pt-6'>
+            <div className='premium-hero-card rounded-[40px] py-32 px-6 text-center shadow-2xl'>
+                <div className='relative z-10'>
+                    <h2 className='text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 tracking-tight text-white'>
+                        Over 10,000+ jobs to apply
+                    </h2>
+                    <p className='mb-14 max-w-2xl mx-auto text-base md:text-lg text-slate-300 font-medium opacity-90 leading-relaxed uppercase tracking-widest'>
+                        Your Next Big Career Move Starts Right Here - Take The First Step Toward Your Future!
+                    </p>
+
+                    <div className='flex flex-col md:flex-row items-center justify-between dark-search-bar rounded-2xl max-w-4xl mx-auto p-3'>
+                        <div className='flex items-center flex-1 w-full px-6 border-b md:border-b-0 md:border-r border-white/10 py-4 group'>
+                            <img className='h-6 opacity-40 group-focus-within:opacity-100 transition-opacity invert' src={assets.search_icon} alt="" />
+                            <input type="text"
+                                placeholder='Search for jobs'
+                                className='text-lg pl-4 outline-none w-full dark-search-input font-medium'
+                                ref={titleRef}
+                            />
+                        </div>
+                        <div className='flex items-center flex-1 w-full px-6 py-4 group'>
+                            <img className='h-6 opacity-40 group-focus-within:opacity-100 transition-opacity invert' src={assets.location_icon} alt="" />
+                            <input type="text"
+                                placeholder='Location'
+                                className='text-lg pl-4 outline-none w-full dark-search-input font-medium'
+                                ref={locationRef}
+                            />
+                        </div>
+                        <button onClick={onSearch} className='premium-search-btn active:scale-95 px-12 py-4 rounded-xl text-white font-bold text-lg w-full md:w-auto shadow-xl'>
+                            Search Jobs
+                        </button>
                     </div>
-                    <div className='flex items-center'>
-                        <img className='h-4 sm:h-5' src={assets.location_icon} alt="" />
-                        <input type="text"
-                            placeholder='Location'
-                            className='max-sm:text-xs p-2 rounded outline-none w-full'
-                            ref={locationRef}
-                        />
-                    </div>
-                    <button onClick={onSearch} className='bg-blue-600 px-6 py-2 rounded text-white m-1'>Search</button>
                 </div>
             </div>
 
-            <div className='border border-gray-300 shadow-md mx-2 mt-5 p-6 rounded-md flex'>
-                <div className='flex justify-center gap-10 lg:gap-16 flex-wrap'>
-                    <p className='font-medium'>Trusted by</p>
-                    <img className='h-6' src={assets.microsoft_logo} alt="" />
-                    <img className='h-6' src={assets.walmart_logo} alt="" />
-                    <img className='h-6' src={assets.accenture_logo} alt="" />
-                    <img className='h-6' src={assets.samsung_logo} alt="" />
-                    <img className='h-6' src={assets.amazon_logo} alt="" />
-                    <img className='h-6' src={assets.adobe_logo} alt="" />
+            <div className='mt-20 premium-trusted-banner py-10 px-12 rounded-[40px] shadow-2xl max-w-7xl mx-auto'>
+                <div className='flex flex-col lg:flex-row items-center gap-12 lg:gap-24 relative z-10'>
+                    <div className='flex flex-col items-center lg:items-start'>
+                        <p className='text-indigo-400 font-black text-xs uppercase tracking-[0.3em] mb-2'>Our Partners</p>
+                        <h3 className='text-white font-bold text-2xl min-w-fit'>Trusted by the best</h3>
+                    </div>
+                    <div className='flex flex-wrap justify-center lg:justify-start items-center gap-12 md:gap-20 flex-1'>
+                        <img className='h-8 cursor-pointer object-contain trusted-logo-container' src={assets.microsoft_logo} onError={(e) => { e.target.src = assets.company_icon }} alt="Microsoft" />
+                        <img className='h-8 cursor-pointer object-contain trusted-logo-container' src={assets.walmart_logo} onError={(e) => { e.target.src = assets.company_icon }} alt="Walmart" />
+                        <img className='h-8 cursor-pointer object-contain trusted-logo-container' src={assets.accenture_logo} onError={(e) => { e.target.src = assets.company_icon }} alt="Accenture" />
+                        <img className='h-8 cursor-pointer object-contain trusted-logo-container' src={assets.samsung_logo} onError={(e) => { e.target.src = assets.company_icon }} alt="Samsung" />
+                        <img className='h-8 cursor-pointer object-contain trusted-logo-container' src={assets.amazon_logo} onError={(e) => { e.target.src = assets.company_icon }} alt="Amazon" />
+                        <img className='h-8 cursor-pointer object-contain trusted-logo-container' src={assets.adobe_logo} onError={(e) => { e.target.src = assets.company_icon }} alt="Adobe" />
+                    </div>
                 </div>
             </div>
-
         </div>
     )
 }
